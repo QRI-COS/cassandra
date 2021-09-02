@@ -30,6 +30,8 @@ RUN apk --purge del curl ca-certificates tar
 
 # Setup entrypoint and bash to execute it
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+COPY ./sysctl-custom.conf /etc/sysctl.d/99-custom.conf
+
 RUN apk add --update --no-cache bash && \
     chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/bin/bash", "/docker-entrypoint.sh"]
@@ -45,21 +47,6 @@ RUN chmod +x ${CASSANDRA_CONFIG}/*.sh
 # Add cassandra bin to PATH
 ENV PATH=$PATH:${CASSANDRA_HOME}/bin \
     CASSANDRA_CONF=${CASSANDRA_CONFIG}
-
-# Tune system
-RUN echo "vm.max_map_count=1048575 \
-net.ipv4.tcp_keepalive_time=60 \ 
-net.ipv4.tcp_keepalive_probes=3 \ 
-net.ipv4.tcp_keepalive_intvl=10 \ 
-net.core.rmem_max=16777216 \ 
-net.core.wmem_max=16777216 \ 
-net.core.rmem_default=16777216 \ 
-net.core.wmem_default=16777216 \ 
-net.core.optmem_max=40960 \ 
-net.core.somaxconn=4096 \ 
-net.ipv4.tcp_rmem=4096 87380 16777216 \ 
-net.ipv4.tcp_wmem=4096 65536 16777216 \ 
-vm.max_map_count=1048575" >> /etc/sysctl.p/99-custom.conf
 
 # Change directories ownership and access rights
 RUN adduser -D -s /bin/sh ${CASSANDRA_USER} && \

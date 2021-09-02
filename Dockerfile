@@ -7,7 +7,7 @@ ENV CASSANDRA_VERSION=3.11.11 \
     CASSANDRA_PERSIST_DIR=/var/lib/cassandra \
     CASSANDRA_DATA=/var/lib/cassandra/data \
     CASSANDRA_COMMITLOG=/var/lib/cassandra/commitlog \
-    CASSANDRA_LOG=/var/lib/cassandra/log \
+    CASSANDRA_LOG=/var/log/cassandra \
     CASSANDRA_USER=cassandra
 
 #PREPARE DIRECTORIES

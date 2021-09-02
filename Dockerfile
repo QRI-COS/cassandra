@@ -40,7 +40,7 @@ COPY ./conf/* ${CASSANDRA_CONFIG}/
 RUN chmod +x ${CASSANDRA_CONFIG}/*.sh
 
 # https://issues.apache.org/jira/browse/CASSANDRA-11661
-RUN sed -ri 's/^(JVM_PATCH_VERSION)=.*/\1=25/' ${CASSANDRA_HOME}/cassandra-env.sh
+#RUN sed -ri 's/^(JVM_PATCH_VERSION)=.*/\1=25/' ${CASSANDRA_HOME}/cassandra-env.sh
 
 # Add cassandra bin to PATH
 ENV PATH=$PATH:${CASSANDRA_HOME}/bin \

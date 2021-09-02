@@ -2,7 +2,8 @@ FROM alpine:latest
 
 #SETUP ENV VARS
 ENV CASSANDRA_VERSION=3.11.11 \
-    CASSANDRA_HOME=/opt/cassandra \ CASSANDRA_CONFIG=/etc/cassandra \
+    CASSANDRA_HOME=/opt/cassandra \ 
+    CASSANDRA_CONFIG=/etc/cassandra \
     CASSANDRA_PERSIST_DIR=/var/lib/cassandra \
     CASSANDRA_DATA=/var/lib/cassandra/data \
     CASSANDRA_COMMITLOG=/var/lib/cassandra/commitlog \
@@ -39,7 +40,7 @@ COPY ./conf/* ${CASSANDRA_CONFIG}/
 RUN chmod +x ${CASSANDRA_CONFIG}/*.sh
 
 # https://issues.apache.org/jira/browse/CASSANDRA-11661
-RUN sed -ri 's/^(JVM_PATCH_VERSION)=.*/\1=25/' /etc/cassandra/cassandra-env.sh
+RUN sed -ri 's/^(JVM_PATCH_VERSION)=.*/\1=25/' ${CASSANDRA_HOME}/cassandra-env.sh
 
 # Add cassandra bin to PATH
 ENV PATH=$PATH:${CASSANDRA_HOME}/bin \

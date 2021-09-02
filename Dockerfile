@@ -2,8 +2,7 @@ FROM alpine:latest
 
 #SETUP ENV VARS
 ENV CASSANDRA_VERSION=3.11.11 \
-    CASSANDRA_HOME=/opt/cassandra \
-    CASSANDRA_CONFIG=/etc/cassandra \
+    CASSANDRA_HOME=/opt/cassandra \ CASSANDRA_CONFIG=/etc/cassandra \
     CASSANDRA_PERSIST_DIR=/var/lib/cassandra \
     CASSANDRA_DATA=/var/lib/cassandra/data \
     CASSANDRA_COMMITLOG=/var/lib/cassandra/commitlog \
@@ -45,6 +44,9 @@ RUN sed -ri 's/^(JVM_PATCH_VERSION)=.*/\1=25/' /etc/cassandra/cassandra-env.sh
 # Add cassandra bin to PATH
 ENV PATH=$PATH:${CASSANDRA_HOME}/bin \
     CASSANDRA_CONF=${CASSANDRA_CONFIG}
+
+# Tune system
+RUN echo "vm.max_map_count=1048575" >> /etc/sysctl.p/99-custom.conf
 
 # Change directories ownership and access rights
 RUN adduser -D -s /bin/sh ${CASSANDRA_USER} && \
